@@ -6,6 +6,11 @@ export const brandsData = [
   { image: "/images/petiscope_logo.png", alt: "Petiscope Logo", link: "https://petiscope.fr" },
   { image: "/images/flowerinstincts.webp", alt: "Flower Instinct Logo", link: "https://flowerinstincts.com/" },
   { image: "/images/rez.webp", alt: "Rez Logo", link: "https://rezenergydrink.com" },
+  { image: "/images/pureva.png", alt: "Pureva Logo", link: "https://pureva.com" },
+  { image: "/images/miro.png", alt: "Miro Logo", link: "https://miro-france.com/" },
+  { image: "/images/flytex.png", alt: "Flytex Logo", link: "https://flytex.fr" },
+  { image: "/images/steamone.png", alt: "Steamone Logo", link: "https://steam-one.com/" },
+  { image: "/images/frenchmush.webp", alt: "French Mush Logo", link: "https://frenchmush.com/" },
 ];
 
 export const navLinks = [

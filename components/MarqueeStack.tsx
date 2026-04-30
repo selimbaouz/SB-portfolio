@@ -38,7 +38,7 @@ const MarqueeStack: FC<MarqueeStackProps> = ({
     <div className={cn("relative mx-auto w-full z-10")}>
       <div className="flex flex-col justify-center items-center w-full h-full overflow-x-hidden">
         <div className={cn("relative z-50 flex h-full w-full flex-col items-center justify-center overflow-hidden", "max-w-xs", "xs:max-w-sm", "md:max-w-2xl", "lg:max-w-4xl", "xl:max-w-7xl")}>
-          <Marquee pauseOnHover className={cn("[--duration:28s]", title && "[--duration:60s]")} reverse={reverse}>
+          <Marquee pauseOnHover className={cn("[--duration:50s]", title && "[--duration:60s]")} reverse={reverse}>
             <div className={cn("flex items-center gap-4 px-4", "sm:gap-12 sm:px-6", "xl:gap-12 xl:px-4"
             )}>
               {brandsData.map(renderIcon)}
