@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/theme-provider"
 import React from "react";
 import LayoutClient from "@/components/LayoutClient";
+import { instrumentSerif, montserrat, neueMontreal } from "./fonts";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: {
@@ -70,7 +72,13 @@ export default function RootLayout({
   
 }>) {
   return (
-      <LayoutClient>
+      <LayoutClient
+        className={cn(
+          montserrat.variable,
+          neueMontreal.variable,
+          instrumentSerif.variable
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -79,7 +87,7 @@ export default function RootLayout({
         >
         <SpeedInsights />
         <Analytics />
-          <div className={`min-h-[100dvh] flex-1 flex flex-col relative font-montserrat`}>{children}</div>  
+          <div className="min-h-[100dvh] flex-1 flex flex-col relative font-[family-name:var(--font-ms)]">{children}</div>  
         </ThemeProvider>
       </LayoutClient>
   );

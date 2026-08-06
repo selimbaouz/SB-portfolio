@@ -1,25 +1,15 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Montserrat } from "next/font/google";
 import useMouseFollower from "@/animations/useMouseFollower";
 import Head from "next/head";
 import CircleMouse from "./CircleMouse";
 
-const montserrat = Montserrat ({
-  weight: [
-    "300",
-    "400",
-    "500",
-    "600"
-  ],
-  subsets: ["latin"],
-  variable: "--font-ms",
-});
-
 const LayoutClient = ({
   children,
+  className,
 }: Readonly<{
   children: React.ReactNode;
+  className?: string;
 }>) => {
   useMouseFollower();
 
@@ -32,7 +22,7 @@ const LayoutClient = ({
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
-      <body className={cn(montserrat.variable, "relative bg-background font-sans antialiased")}>
+      <body className={cn(className, "relative bg-background font-sans antialiased")}>
         <CircleMouse />
         {children}
       </body>
@@ -41,4 +31,3 @@ const LayoutClient = ({
 };
 
 export default LayoutClient;
-

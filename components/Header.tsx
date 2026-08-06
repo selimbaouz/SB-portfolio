@@ -1,39 +1,82 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useState, useEffect, useRef } from "react";
 import { useIsHydrated } from "@/hook/useIsHydrated";
-import Portfolio from '@/public/images/gif.gif'
-import Image from "next/image";
-import NavBarDesktop from "./navigations/NavBarDesktop";
-import MarqueeStack from "./MarqueeStack";
 import Link from "next/link";
 import HoverIcon from "./HoverIcon";
+import { navLinks } from "@/data/work";
+import { useEffect, useRef, useState } from "react";
 
-const words = [
-  "Ecommerce",
-  "Shopify",
-  "SaaS",
-  "Custom",
-  "Brands",
-  "Headless",
-];
+const DESKTOP_VIDEO = "/videos/sb_hero_desktop.mp4";
+const MOBILE_VIDEO = "/videos/sb_hero_mobile.mp4";
 
 const HeaderPage = () => {
   const isHydrated = useIsHydrated();
-  const [index, setIndex] = useState(0);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoSrc, setVideoSrc] = useState(MOBILE_VIDEO);
+  const [progress, setProgress] = useState(0);
+  const [videoReady, setVideoReady] = useState(false);
+  const [loaderDone, setLoaderDone] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (!isHydrated) return;
-
-    timeoutRef.current = setTimeout(() => {
-      setIndex((prev) => (prev + 1) % words.length);
-    }, 1000);
-
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      document.body.style.overflow = prev;
     };
-  }, [index, isHydrated]);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => {
+      setVideoReady(false);
+      setProgress(0);
+      setLoaderDone(false);
+      setVideoSrc(mq.matches ? DESKTOP_VIDEO : MOBILE_VIDEO);
+    };
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (loaderDone) return;
+
+    const id = window.setInterval(() => {
+      setProgress((prev) => {
+        const video = videoRef.current;
+        let target = prev;
+
+        if (video && video.buffered.length > 0 && video.duration > 0) {
+          const buffered = video.buffered.end(video.buffered.length - 1);
+          target = Math.min(100, Math.round((buffered / video.duration) * 100));
+        }
+
+        if (videoReady) target = 100;
+
+        if (!videoReady && target < 92) {
+          target = Math.max(target, prev + 1);
+        }
+
+        return prev >= target ? prev : Math.min(prev + 2, target);
+      });
+    }, 40);
+
+    return () => window.clearInterval(id);
+  }, [videoReady, loaderDone, videoSrc]);
+
+  useEffect(() => {
+    if (progress < 100 || !videoReady || loaderDone) return;
+
+    const t = window.setTimeout(() => setLoaderDone(true), 280);
+    return () => window.clearTimeout(t);
+  }, [progress, videoReady, loaderDone]);
+
+  useEffect(() => {
+    if (!loaderDone) return;
+    void videoRef.current?.play().catch(() => {});
+  }, [loaderDone]);
 
   if (!isHydrated) {
     return null;
@@ -42,72 +85,245 @@ const HeaderPage = () => {
   return (
     <header
       id="home"
-      className={cn(
-        "overflow-hidden relative size-full grid grid-rows-2 justify-start items-end",
-        "xl:grid-cols-2 xl:items-end xl:grid-rows-1 xl:h-dvh xl:px-20 xl:py-14"
-      )}
+      className="relative min-h-[100dvh] w-full overflow-hidden"
     >
-      <div className="lg:flex lg:flex-col lg:justify-between lg:h-full">
-        <NavBarDesktop />
+      {/* Full-bleed video — no heavy overlay so exclusion can invert colors */}
+      <div className="absolute inset-0">
+        <video
+          key={videoSrc}
+          ref={videoRef}
+          className={cn(
+            "absolute inset-0 size-full object-cover transition-opacity duration-700",
+            loaderDone ? "opacity-100" : "opacity-0"
+          )}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/images/hero-bg.jpg"
+          aria-hidden
+          onLoadedData={() => setVideoReady(true)}
+          onCanPlayThrough={() => setVideoReady(true)}
+          onError={() => setVideoReady(true)}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
         <div
           className={cn(
-            "p-6 space-y-6",
-            "xl:px-0"
+            "absolute inset-0 transition-opacity duration-700",
+            loaderDone ? "opacity-100" : "opacity-0",
+            "bg-black/35"
+          )}
+        />
+      </div>
+
+      {/* Loader */}
+      <div
+        className={cn(
+          "fixed inset-0 z-[200] flex items-end justify-end bg-[#0a0a10] px-5 pb-8 md:px-10 md:pb-12 xl:px-14 xl:pb-16",
+          "transition-opacity duration-700 ease-out",
+          loaderDone ? "pointer-events-none opacity-0" : "opacity-100"
+        )}
+        aria-hidden={loaderDone}
+      >
+        <p
+          className={cn(
+            "font-[family-name:var(--font-neue)] font-medium tabular-nums tracking-tight text-white mix-blend-exclusion",
+            "text-[22vw] leading-none md:text-[16vw] xl:text-[12vw]"
           )}
         >
-          <h1
+          {progress}
+          <span className="pl-1 align-top text-[0.35em]">%</span>
+        </p>
+      </div>
+
+      {/* All hero UI — exclusion everywhere */}
+      <div
+        className={cn(
+          "absolute inset-0 z-20 mix-blend-exclusion text-white",
+          "transition-opacity duration-700 delay-150",
+          loaderDone ? "opacity-100" : "opacity-0"
+        )}
+      >
+        {/* SB top left */}
+        <Link
+          href="/"
+          className={cn(
+            "absolute left-5 top-6 z-10 md:left-10 md:top-8 xl:left-14 xl:top-10",
+            "font-[family-name:var(--font-neue)] text-[15px] font-medium uppercase tracking-[0.08em] md:text-base"
+          )}
+          aria-label="SB home"
+        >
+          SB
+        </Link>
+
+        {/* Desktop menu */}
+        <nav
+          className={cn(
+            "absolute right-5 top-6 z-10 hidden md:block md:right-10 md:top-8 xl:right-14 xl:top-10",
+            "font-[family-name:var(--font-neue)]"
+          )}
+        >
+          <ul className="flex flex-wrap items-center justify-end gap-x-6">
+            {navLinks.slice(1).map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-[12px] font-medium uppercase tracking-[0.18em] transition-opacity hover:opacity-60"
+                  {...(link.href.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Mobile MENU trigger */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          className={cn(
+            "absolute right-5 top-6 z-10 md:hidden",
+            "font-[family-name:var(--font-neue)] text-[12px] font-medium uppercase tracking-[0.22em]"
+          )}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+        >
+          Menu
+        </button>
+
+        {/* Headline — near end, above meta */}
+        <h1
+          className={cn(
+            "absolute bottom-32 left-5 right-5",
+            "md:bottom-14 md:left-10 md:right-auto",
+            "xl:bottom-16 xl:left-14",
+            loaderDone && "hero-rise"
+          )}
+        >
+          <span
             className={cn(
-              "text-[7vw] leading-[1] bigTitle z-50",
-              "lg:text-[45px] lg:leading-[64px]",
-              "xl:text-[3.3vw]",
-              "whitespace-pre-wrap",
-              "text-foreground text-left"
+              "block font-[family-name:var(--font-neue)] font-medium tracking-[0.04em]",
+              "text-[11.5vw] leading-[0.92]",
+              "md:text-[7.5vw]",
+              "xl:text-[6.2vw]"
             )}
           >
-            <span className="font-extralight">
-            I create
-            </span>
-            <br />
-            <div className="pt-1 lg:pt-2">
-              <span className="font-extrabold uppercase leading-[0.9] md:leading-[0.8] lg:leading-[0.7] text-[10vw] lg:text-[9vw] xl:text-[5vw]">
-              {words[index]}<br />Experiences
-              </span>
-            </div>
-          </h1>
-          <div className="border w-full border-white/20" />
-          <div>
-            {/* <div className="flex items-center gap-1">
-              <Image src="/images/canva_white.png" alt="Canva" width={1080} height={1080} className="w-11 min-h-full md:w-14" /> 
-              <div className="flex items-center italic">
-                <p className="font-bold text-sm lg:text-lg"><span className="font-light not-italic">&</span> Shopify <span className="font-light">Developer</span></p>
-              </div>
-            </div> */}
-            <div className={cn("flex flex-col gap-6 lg:gap-8")}>
-              <div className="text-white/50 font-medium text-sm lg:text-base flex items-center gap-1">
-                Shopify <span className="hxs:hidden">Dev</span><span className="hidden hxs:block">Developer</span> at
-                <Link href="https://uxhover.co" rel="noopener noreferrer" target="_blank" className="uppercase text-white font-bold hover:underline hover:text-[#d4ff4b] flex items-center gap-1 pr-0.5 pl-1  ">
-                  <HoverIcon 
-                    width={20} 
-                    height={20} 
-                    className="hover:fill-[#d4ff4b]" 
-                  /> 
-                  Hover
-                </Link> 
-                <span className="text-white/50 font-medium text-sm lg:text-base">for brands like:</span>
-              </div>
-              <MarqueeStack title={false} />
-            </div>
-          </div>
+            Multidisciplinary
+          </span>
+          <span
+            className={cn(
+              "mt-1 block font-[family-name:var(--font-instrument)] italic font-normal tracking-[0.06em]",
+              "text-[12.5vw] leading-[0.88]",
+              "md:text-[8.5vw]",
+              "xl:text-[6.8vw]"
+            )}
+          >
+            Developer
+          </span>
+        </h1>
+
+        {/* Meta — bottom right, stacked caps like the ref */}
+        <div
+          className={cn(
+            "absolute bottom-8 right-5 flex flex-col items-end gap-1.5 text-right",
+            "md:bottom-14 md:right-10",
+            "xl:bottom-16 xl:right-14",
+            "font-[family-name:var(--font-neue)]",
+            loaderDone && "hero-rise hero-rise-delay"
+          )}
+        >
+          <p className="text-[10px] uppercase tracking-[0.22em] md:text-[11px]">
+            Based in France
+          </p>
+          <p className="flex flex-wrap items-center justify-end gap-1 text-[10px] uppercase tracking-[0.18em] md:text-[11px]">
+            Founder & CEO of
+            <Link
+              href="https://brandionary.com"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="inline-flex items-center gap-1 font-semibold underline-offset-2 hover:underline"
+            >
+              Brandionary
+            </Link>
+          </p>
+          <p className="flex flex-wrap items-center justify-end gap-1 text-[10px] uppercase tracking-[0.18em] md:text-[11px]">
+            Shopify Developer at
+            <Link
+              href="https://uxhover.co"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="inline-flex items-center gap-1 font-semibold underline-offset-2 hover:underline"
+            >
+              <HoverIcon width={14} height={14} />
+              Hover
+            </Link>
+          </p>
         </div>
       </div>
-      <div className="flex flex-col justify-end size-full">
-        <Image 
-          src={Portfolio.src} 
-          alt="Portfolio Partner" 
-          className="h-[430px] object-cover md:w-screen md:h-full xl:h-[97%] xl:w-[47%] bg-gray-200/30 xl:rounded-3xl xl:absolute xl:top-4 xl:right-4" 
-          width={Portfolio.width} 
-          height={Portfolio.height} 
+
+      {/* Mobile glass menu — outside exclusion so backdrop-blur works */}
+      <div
+        id="mobile-menu"
+        className={cn(
+          "fixed inset-0 z-[180] md:hidden",
+          "transition-opacity duration-300 ease-out",
+          menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        )}
+        aria-hidden={!menuOpen}
+      >
+        <button
+          type="button"
+          className="absolute inset-0 bg-black/25"
+          aria-label="Close menu"
+          onClick={() => setMenuOpen(false)}
         />
+        <div
+          className={cn(
+            "absolute inset-x-4 top-4 bottom-4 flex flex-col overflow-hidden rounded-3xl",
+            "border border-white/20 bg-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.25)]",
+            "backdrop-blur-2xl backdrop-saturate-150",
+            "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            menuOpen ? "translate-y-0" : "translate-y-4"
+          )}
+        >
+          <div className="flex items-center justify-between px-6 pt-6">
+            <span className="font-[family-name:var(--font-neue)] text-[13px] font-medium uppercase tracking-[0.08em] text-white">
+              SB
+            </span>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              className="font-[family-name:var(--font-neue)] text-[12px] font-medium uppercase tracking-[0.22em] text-white/80"
+            >
+              Close
+            </button>
+          </div>
+
+          <nav className="flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-10 text-center">
+            {navLinks.slice(1).map((link, i) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className={cn(
+                  "block w-full text-center font-[family-name:var(--font-neue)] text-[11vw] font-medium uppercase tracking-[0.12em] text-white",
+                  "pl-[0.12em] transition-opacity hover:opacity-70",
+                  menuOpen && "hero-rise"
+                )}
+                style={{ animationDelay: `${80 + i * 60}ms` }}
+                {...(link.href.startsWith("http")
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
     </header>
   );
