@@ -2,30 +2,43 @@ import LegalPage from "@/components/LegalPage";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Suspense } from "react";
-import { IoArrowBackSharp } from "react-icons/io5";
+import { ArrowLeft } from "lucide-react";
 
- type Props = {
-  params: Promise<{ handle: string }>
-}
+type Props = {
+  params: Promise<{ handle: string }>;
+};
 
-export default async function Legals (props: Props) {
+export default async function Legals(props: Props) {
   const params = await props.params;
+
   return (
     <Suspense>
-      <div className={cn("sticky top-4 ml-4 h-full z-[150]")}>
-         <Link
-          href=".."
-          className={cn(
-            "rounded-full w-max bg-gradient-to-r from-[#5738F4] to-[#7D2AE8] hover:bg-gradient-to-r text-white shadow-md p-2 flex items-center justify-center cursor-pointer",
-            "hover:from-white hover:to-white hover:text-black group hover:gap-4"
-          )}
-        >
-          <IoArrowBackSharp className={cn("text-white group-hover:text-black", "lg:text-xl")} />
-        </Link>
+      <div className="min-h-[100dvh] bg-[#0a0a10] text-white">
+        <header className="flex items-center justify-between px-6 pt-6 md:px-10 md:pt-8 xl:px-14 xl:pt-10">
+          <Link
+            href="/"
+            className="font-[family-name:var(--font-neue)] text-[15px] font-medium uppercase tracking-[0.08em] text-white md:text-base"
+            aria-label="SB home"
+          >
+            SB
+          </Link>
+          <Link
+            href="/"
+            className={cn(
+              "inline-flex items-center gap-2 font-[family-name:var(--font-neue)]",
+              "text-[11px] font-medium uppercase tracking-[0.18em] text-white/70",
+              "transition-colors hover:text-white"
+            )}
+          >
+            <ArrowLeft className="size-3.5" strokeWidth={1.5} />
+            Back
+          </Link>
+        </header>
+
+        <main className="py-16 md:py-24 xl:py-28">
+          <LegalPage handle={params.handle} />
+        </main>
       </div>
-        <div className="py-20 lg:py-44 space-y-24 lg:space-y-44 xl:px-20 max-w-screen-3xl whitespace-pre-line mx-auto">
-            <LegalPage handle={params.handle} />
-        </div>
     </Suspense>
   );
 }

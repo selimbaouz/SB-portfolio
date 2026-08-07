@@ -128,6 +128,21 @@ body {
   animation-delay: 0.15s;
 }
 
+@keyframes work-card-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.work-card-rise {
+  animation: work-card-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 
 @theme inline {
   --color-background: var(--background);

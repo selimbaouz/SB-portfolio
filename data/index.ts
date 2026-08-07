@@ -4,6 +4,7 @@ export const templates = [
     imageUrl: "/images/db_desktop.png",
     url: "https://detectivebox.com",
     category: "Shopify",
+    agency: "Hover",
     index: 0,
   },
   {
@@ -11,6 +12,7 @@ export const templates = [
     imageUrl: "/images/paalm_desktop.png",
     url: "https://paalm.co",
     category: "Shopify",
+    agency: "Hover",
     index: 1,
   },
   {
@@ -18,6 +20,7 @@ export const templates = [
     imageUrl: "/images/petiscope.png",
     url: "https://petiscope.fr",
     category: "Shopify",
+    agency: "Hover",
     index: 2,
   },
   /*   {
@@ -25,6 +28,7 @@ export const templates = [
     imageUrl: "/images/moea_desktop.png",
     url: "https://moea.io/",
     category: "Shopify",
+    agency: "Hover",
     index: 3,
   }, */
   {
@@ -32,6 +36,7 @@ export const templates = [
     imageUrl: "/images/mushngo_desktop.png",
     url: "https://mushngo.com/",
     category: "Shopify",
+    agency: "Hover",
     index: 3,
   },
   {
@@ -39,6 +44,7 @@ export const templates = [
     imageUrl: "/images/palette_and_tints.png",
     url: "https://www.canva.com/your-apps/AAGluK9VFX0/palette-and-tints?q=Palette+and+Tints",
     category: "App Canva",
+    agency: "Brandionary",
     index: 4,
   },
   {
@@ -46,6 +52,7 @@ export const templates = [
     imageUrl: "/images/hellopurly-mobile.png",
     url: "",
     category: "Shopify",
+    agency: "Brandionary",
     index: 5,
   },
   {
@@ -53,6 +60,7 @@ export const templates = [
     imageUrl: "/images/MosqiBlock.png",
     url: "",
     category: "Shopify",
+    agency: "Brandionary",
     index: 6,
   },
   {
@@ -60,6 +68,7 @@ export const templates = [
     imageUrl: "/images/mosqiblock_product.png",
     url: "",
     category: "Shopify",
+    agency: "Brandionary",
     index: 7,
   },
 ];

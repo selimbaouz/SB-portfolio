@@ -3,8 +3,9 @@ import { cn } from "@/lib/utils";
 import { useIsHydrated } from "@/hook/useIsHydrated";
 import Link from "next/link";
 import HoverIcon from "./HoverIcon";
-import { navLinks } from "@/data/work";
 import { useEffect, useRef, useState } from "react";
+import BrandionaryMark from "./BrandionaryMark";
+import Menu from "./Menu";
 
 const DESKTOP_VIDEO = "/videos/sb_hero_desktop.mp4";
 const MOBILE_VIDEO = "/videos/sb_hero_mobile.mp4";
@@ -17,15 +18,6 @@ const HeaderPage = () => {
   const [videoReady, setVideoReady] = useState(false);
   const [loaderDone, setLoaderDone] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [menuOpen]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -87,7 +79,7 @@ const HeaderPage = () => {
       id="home"
       className="relative min-h-[100dvh] w-full overflow-hidden"
     >
-      {/* Full-bleed video — no heavy overlay so exclusion can invert colors */}
+      {/* Full-bleed video */}
       <div className="absolute inset-0">
         <video
           key={videoSrc}
@@ -137,7 +129,7 @@ const HeaderPage = () => {
         </p>
       </div>
 
-      {/* All hero UI — exclusion everywhere */}
+      {/* Hero UI — exclusion */}
       <div
         className={cn(
           "absolute inset-0 z-20 mix-blend-exclusion text-white",
@@ -145,57 +137,19 @@ const HeaderPage = () => {
           loaderDone ? "opacity-100" : "opacity-0"
         )}
       >
-        {/* SB top left */}
         <Link
           href="/"
           className={cn(
             "absolute left-5 top-6 z-10 md:left-10 md:top-8 xl:left-14 xl:top-10",
-            "font-[family-name:var(--font-neue)] text-[15px] font-medium uppercase tracking-[0.08em] md:text-base"
+            "font-[family-name:var(--font-neue)] text-[15px] font-medium uppercase tracking-[0.08em] md:text-base",
+            "transition-opacity duration-200 md:opacity-100",
+            menuOpen ? "pointer-events-none opacity-0" : "opacity-100"
           )}
           aria-label="SB home"
         >
           SB
         </Link>
 
-        {/* Desktop menu */}
-        <nav
-          className={cn(
-            "absolute right-5 top-6 z-10 hidden md:block md:right-10 md:top-8 xl:right-14 xl:top-10",
-            "font-[family-name:var(--font-neue)]"
-          )}
-        >
-          <ul className="flex flex-wrap items-center justify-end gap-x-6">
-            {navLinks.slice(1).map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-[12px] font-medium uppercase tracking-[0.18em] transition-opacity hover:opacity-60"
-                  {...(link.href.startsWith("http")
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {/* Mobile MENU trigger */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen(true)}
-          className={cn(
-            "absolute right-5 top-6 z-10 md:hidden",
-            "font-[family-name:var(--font-neue)] text-[12px] font-medium uppercase tracking-[0.22em]"
-          )}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-        >
-          Menu
-        </button>
-
-        {/* Headline — near end, above meta */}
         <h1
           className={cn(
             "absolute bottom-32 left-5 right-5",
@@ -226,7 +180,6 @@ const HeaderPage = () => {
           </span>
         </h1>
 
-        {/* Meta — bottom right, stacked caps like the ref */}
         <div
           className={cn(
             "absolute bottom-8 right-5 flex flex-col items-end gap-1.5 text-right",
@@ -247,6 +200,7 @@ const HeaderPage = () => {
               target="_blank"
               className="inline-flex items-center gap-1 font-semibold underline-offset-2 hover:underline"
             >
+              <BrandionaryMark className="size-4" />
               Brandionary
             </Link>
           </p>
@@ -265,66 +219,7 @@ const HeaderPage = () => {
         </div>
       </div>
 
-      {/* Mobile glass menu — outside exclusion so backdrop-blur works */}
-      <div
-        id="mobile-menu"
-        className={cn(
-          "fixed inset-0 z-[180] md:hidden",
-          "transition-opacity duration-300 ease-out",
-          menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
-        )}
-        aria-hidden={!menuOpen}
-      >
-        <button
-          type="button"
-          className="absolute inset-0 bg-black/25"
-          aria-label="Close menu"
-          onClick={() => setMenuOpen(false)}
-        />
-        <div
-          className={cn(
-            "absolute inset-x-4 top-4 bottom-4 flex flex-col overflow-hidden rounded-3xl",
-            "border border-white/20 bg-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.25)]",
-            "backdrop-blur-2xl backdrop-saturate-150",
-            "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            menuOpen ? "translate-y-0" : "translate-y-4"
-          )}
-        >
-          <div className="flex items-center justify-between px-6 pt-6">
-            <span className="font-[family-name:var(--font-neue)] text-[13px] font-medium uppercase tracking-[0.08em] text-white">
-              SB
-            </span>
-            <button
-              type="button"
-              onClick={() => setMenuOpen(false)}
-              className="font-[family-name:var(--font-neue)] text-[12px] font-medium uppercase tracking-[0.22em] text-white/80"
-            >
-              Close
-            </button>
-          </div>
-
-          <nav className="flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-10 text-center">
-            {navLinks.slice(1).map((link, i) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className={cn(
-                  "block w-full text-center font-[family-name:var(--font-neue)] text-[11vw] font-medium uppercase tracking-[0.12em] text-white",
-                  "pl-[0.12em] transition-opacity hover:opacity-70",
-                  menuOpen && "hero-rise"
-                )}
-                style={{ animationDelay: `${80 + i * 60}ms` }}
-                {...(link.href.startsWith("http")
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
+      <Menu visible={loaderDone} onOpenChange={setMenuOpen} />
     </header>
   );
 };

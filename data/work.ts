@@ -15,9 +15,9 @@ export const brandsData = [
 
 export const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/work", label: "Work" },
   { href: "https://medium.com/@selimbaouz", label: "Blog" },
-  { href: "/support", label: "Support" },
-  { href: "/legal-notice", label: "Legal Notice" },
+  { href: "/privacy", label: "Privacy" },
 ];
 
 export const socialLinks = [
@@ -69,6 +69,38 @@ export const legalsPagesData = (handle: string) => {
           {
             title: "8. Applicable Law",
             content: `These legal terms are governed by French law. In case of a dispute, the competent courts will be those of Toulon, France.`,
+          },
+        ],
+      };
+    case "privacy":
+      return {
+        title: "Privacy",
+        data: [
+          {
+            title: "1. Publisher",
+            content: `This portfolio website is published by:
+
+Brandionary LLC
+30 N Gould St Ste N
+Sheridan, WY 82801
+United States
+
+Email: hello@brandionary.com
+Website: https://brandionary.com`,
+          },
+          {
+            title: "2. Data collection",
+            content: `This portfolio does not collect personal data. No contact forms, accounts, or tracking tools are used to identify visitors.`,
+          },
+          {
+            title: "3. Hosting",
+            content: `Host: Vercel Inc.
+Address: 340 S Lemon Ave #4133, Walnut, CA 91789, USA
+Website: vercel.com`,
+          },
+          {
+            title: "4. Contact",
+            content: `For any question, contact Brandionary LLC at hello@brandionary.com.`,
           },
         ],
       };
