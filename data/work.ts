@@ -1,27 +1,8 @@
-export const brandsData = [
-  { image: "/images/db.avif", alt: "Dectective Box Logo", link: "https://detectivebox.com" },
-  { image: "/images/paalm.png", alt: "Paalm Logo", link: "https://paalm.co" },
-  { image: "/images/mushngo.png", alt: "MushnGo Logo", link: "https://mushngo.com" },
-  { image: "/images/moea.png", alt: "Moea Logo", link: "https://moea.io" },
-  { image: "/images/petiscope_logo.png", alt: "Petiscope Logo", link: "https://petiscope.fr" },
-  { image: "/images/flowerinstincts.webp", alt: "Flower Instinct Logo", link: "https://flowerinstincts.com/" },
-  { image: "/images/rez.webp", alt: "Rez Logo", link: "https://rezenergydrink.com" },
-  { image: "/images/pureva.png", alt: "Pureva Logo", link: "https://pureva.com" },
-  { image: "/images/miro.png", alt: "Miro Logo", link: "https://miro-france.com/" },
-  { image: "/images/flytex.png", alt: "Flytex Logo", link: "https://flytex.fr" },
-  { image: "/images/steamone.png", alt: "Steamone Logo", link: "https://steam-one.com/" },
-  { image: "/images/frenchmush.webp", alt: "French Mush Logo", link: "https://frenchmush.com/" },
-];
-
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/work", label: "Work" },
   { href: "https://medium.com/@selimbaouz", label: "Blog" },
   { href: "/privacy", label: "Privacy" },
-];
-
-export const socialLinks = [
-  { href: "https://linkedin.com/in/selimbaouz/", label: "Linkedin" },
 ];
 
 export const legalsPagesData = (handle: string) => {

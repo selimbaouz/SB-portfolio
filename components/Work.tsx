@@ -77,33 +77,31 @@ const WorkCard = ({
   );
 
   const card = (
-    <>
-      <div className="overflow-hidden">
-        <Image
-          src={project.imageUrl}
-          alt={project.name}
-          width={1400}
-          height={900}
-          className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-        />
-      </div>
+    <div className="border-b border-white/70 pb-2 lg:pb-3">
+      <Image
+        src={project.imageUrl}
+        alt={project.name}
+        width={1400}
+        height={900}
+        className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+      />
       <div className="mt-4 flex items-start justify-between gap-4 px-1 pb-1">
-        <div>
+        <div className="flex flex-col gap-0.5">
+          <p className="font-[family-name:var(--font-neue)] text-xs lg:text-sm text-white/55">
+            {project.category} · {project.agency}
+          </p>
           <h2 className="font-[family-name:var(--font-neue)] text-lg font-medium tracking-[0.01em] text-white md:text-xl">
             {project.name}
           </h2>
-          <p className="mt-1 font-[family-name:var(--font-neue)] text-sm text-white/55">
-            {project.category} · {project.agency}
-          </p>
         </div>
         {project.url ? (
           <ArrowUpRight
-            className="mt-1 size-4 shrink-0 text-white/50 transition-colors group-hover:text-white"
+            className="mt-1 size-5 shrink-0 text-white/50 transition-colors group-hover:text-white"
             strokeWidth={1.5}
           />
         ) : null}
       </div>
-    </>
+    </div>
   );
 
   return (
