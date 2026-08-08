@@ -125,6 +125,7 @@ const WorkCard = ({
 const Work = () => {
   const [filter, setFilter] = useState<(typeof filters)[number]>("All");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loaderDone, setLoaderDone] = useState(false);
 
   const uniqueProjects = useMemo(() => {
     const seen = new Set<string>();
@@ -151,10 +152,16 @@ const Work = () => {
   return (
     <div className="relative min-h-[100dvh] overflow-x-hidden text-white">
       <div className="pointer-events-none fixed inset-0 z-0">
-        <HeroVideo className="size-full" overlayClassName="bg-black/25" />
+        <HeroVideo
+          className="size-full"
+          overlayClassName="bg-black/25"
+          loaderMode="needed"
+          onLoaderDone={setLoaderDone}
+        />
         <div
           className={cn(
-            "absolute inset-0",
+            "absolute inset-0 transition-opacity duration-700",
+            loaderDone ? "opacity-100" : "opacity-0",
             "border-0 bg-white/[0.08]",
             "backdrop-blur-2xl backdrop-saturate-150"
           )}
@@ -162,7 +169,13 @@ const Work = () => {
         />
       </div>
 
-      <header className="relative z-20 flex items-center px-6 pt-6 md:px-10 md:pt-8 xl:px-14 xl:pt-10">
+      <header
+        className={cn(
+          "relative z-20 flex items-center px-6 pt-6 md:px-10 md:pt-8 xl:px-14 xl:pt-10",
+          "transition-opacity duration-700 delay-150",
+          loaderDone ? "opacity-100" : "opacity-0"
+        )}
+      >
         <Link
           href="/"
           className={cn(
@@ -176,9 +189,15 @@ const Work = () => {
         </Link>
       </header>
 
-      <Menu onOpenChange={setMenuOpen} />
+      <Menu visible={loaderDone} onOpenChange={setMenuOpen} />
 
-      <main className="relative z-10 px-6 pb-24 pt-16 md:px-10 md:pt-20 xl:px-14">
+      <main
+        className={cn(
+          "relative z-10 px-6 pb-24 pt-16 md:px-10 md:pt-20 xl:px-14",
+          "transition-opacity duration-700 delay-150",
+          loaderDone ? "opacity-100" : "opacity-0"
+        )}
+      >
         <h1
           className={cn(
             "text-center font-[family-name:var(--font-neue)] font-medium tracking-[-0.02em] text-white mix-blend-exclusion",
