@@ -13,7 +13,7 @@ type MenuProps = {
 };
 
 const links = navLinks.slice(1);
-const CONTACT_EMAIL = "mailto:slmrsv.bz@gmail.com";
+const CONTACT_EMAIL = "mailto:hello@Brandionary.com";
 
 const Menu = ({ visible = true, onOpenChange }: MenuProps) => {
   const pathname = usePathname();

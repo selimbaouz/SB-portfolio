@@ -17,7 +17,7 @@ export const legalsPagesData = (handle: string) => {
             Creator of the site: Selim Baouz
             Publisher: Selim Baouz
             Address: 5 rue Marcel Sembat, 83200 Toulon, France
-            Email: slmrsv.bz@gmail.com
+            Email: hello@Brandionary.com
             SIRET number: 83012126500037`,
           },
           {
@@ -37,7 +37,7 @@ export const legalsPagesData = (handle: string) => {
           },
           {
             title: "5. Privacy Policy",
-            content: `We respect your privacy and are committed to protecting your personal information. Data collected is anonymized and only used to analyze traffic and improve the site. No personal data is sold or shared, except for technical purposes required by services like Vercel, Canva, and Shopify. You have the right to access, correct, or delete your data by contacting us at slmrsv.bz@gmail.com.`,
+            content: `We respect your privacy and are committed to protecting your personal information. Data collected is anonymized and only used to analyze traffic and improve the site. No personal data is sold or shared, except for technical purposes required by services like Vercel, Canva, and Shopify. You have the right to access, correct, or delete your data by contacting us at hello@Brandionary.com.`,
           },
           {
             title: "6. Cookies",
@@ -66,7 +66,7 @@ Brandionary LLC
 Sheridan, WY 82801
 United States
 
-Email: hello@brandionary.com
+Email: hello@Brandionary.com
 Website: https://brandionary.com`,
           },
           {
@@ -81,7 +81,7 @@ Website: vercel.com`,
           },
           {
             title: "4. Contact",
-            content: `For any question, contact Brandionary LLC at hello@brandionary.com.`,
+            content: `For any question, contact Brandionary LLC at hello@Brandionary.com.`,
           },
         ],
       };
@@ -91,7 +91,7 @@ Website: vercel.com`,
         data: [
           {
             title: "1. How to Get Support",
-            content: `If you need any assistance or have any questions about the site or services, please do not hesitate to contact me directly at the following email address: slmrsv.bz@gmail.com. I am here to help you!`,
+            content: `If you need any assistance or have any questions about the site or services, please do not hesitate to contact me directly at the following email address: hello@Brandionary.com. I am here to help you!`,
           },
         ],
       };
