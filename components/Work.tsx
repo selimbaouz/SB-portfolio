@@ -72,16 +72,13 @@ const WorkCard = ({
   }, [delay, project.index, project.name]);
 
   const cardClass = cn(
-    "group block overflow-hidden rounded-2xl border border-white/25 p-3",
-    "bg-white/[0.08] shadow-[0_8px_40px_rgba(0,0,0,0.2)]",
-    "backdrop-blur-xl backdrop-saturate-150",
-    "transition-colors hover:border-white/40 hover:bg-white/[0.12]",
+    "group block overflow-hidden p-3",
     project.url && "cursor-pointer"
   );
 
   const card = (
     <>
-      <div className="overflow-hidden rounded-xl">
+      <div className="overflow-hidden">
         <Image
           src={project.imageUrl}
           alt={project.name}
