@@ -1,5 +1,21 @@
 export const templates = [
   {
+    name: "AuditCRO",
+    imageUrl: "/images/auditcro_preview.png",
+    url: "https://auditcro.io",
+    category: "SaaS",
+    agency: "Brandionary",
+    index: 28,
+  },
+  {
+    name: "ShotClear",
+    imageUrl: "/images/shotclear_preview.png",
+    url: "https://shotclear.brandionary.com",
+    category: "SaaS",
+    agency: "Brandionary",
+    index: 29,
+  },
+  {
     name: "Detective Box",
     imageUrl: "/images/db_desktop.png",
     url: "https://detectivebox.com",

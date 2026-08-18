@@ -9,7 +9,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import HeroVideo from "./HeroVideo";
 import Menu from "./Menu";
 
-const filters = ["All", "Shopify", "App Canva"] as const;
+const filters = ["All", "Shopify", "App Canva", "SaaS"] as const;
 
 type Project = (typeof templates)[number];
 
@@ -141,6 +141,7 @@ const Work = () => {
       All: uniqueProjects.length,
       Shopify: uniqueProjects.filter((p) => p.category === "Shopify").length,
       "App Canva": uniqueProjects.filter((p) => p.category === "App Canva").length,
+      SaaS: uniqueProjects.filter((p) => p.category === "SaaS").length,
     };
   }, [uniqueProjects]);
 
@@ -208,30 +209,39 @@ const Work = () => {
           Selected Projects
         </h1>
 
-        <ul className="mt-8 flex flex-wrap items-center justify-center gap-2 md:mt-10 md:gap-3">
-          {filters.map((item) => {
-            const active = filter === item;
-            return (
-              <li key={item}>
-                <button
-                  type="button"
-                  onClick={() => setFilter(item)}
-                  className={cn(
-                    "inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-4 py-2",
-                    "font-[family-name:var(--font-neue)] text-[12px] font-medium tracking-[0.02em]",
-                    "transition-colors",
-                    active
-                      ? "border-white bg-white text-[#0a0a10] hover:bg-white/90"
-                      : "border-white/30 bg-white/10 text-white hover:border-white/60 hover:bg-white/20"
-                  )}
-                >
-                  {item}
-                  <sup className="text-[10px] opacity-70">{counts[item]}</sup>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <div
+          className={cn(
+            "mt-8 -mx-6 overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+            "md:mx-0 md:mt-10 md:overflow-visible md:px-0"
+          )}
+          data-lenis-prevent
+        >
+          <ul className="flex w-max min-w-full items-center justify-center gap-1.5 md:gap-3">
+            {filters.map((item) => {
+              const active = filter === item;
+              return (
+                <li key={item} className="shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setFilter(item)}
+                    className={cn(
+                      "inline-flex cursor-pointer items-center gap-1 rounded-full border px-3 py-1.5",
+                      "font-[family-name:var(--font-neue)] text-[11px] font-medium tracking-[0.02em]",
+                      "md:gap-1.5 md:px-4 md:py-2 md:text-[12px]",
+                      "transition-colors",
+                      active
+                        ? "border-white bg-white text-[#0a0a10] hover:bg-white/90"
+                        : "border-white/30 bg-white/10 text-white hover:border-white/60 hover:bg-white/20"
+                    )}
+                  >
+                    {item}
+                    <sup className="text-[9px] opacity-70 md:text-[10px]">{counts[item]}</sup>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
 
         <ul
           key={filter}
