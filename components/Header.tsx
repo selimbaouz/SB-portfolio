@@ -2,7 +2,6 @@
 import { cn } from "@/lib/utils";
 import { useIsHydrated } from "@/hook/useIsHydrated";
 import Link from "next/link";
-import HoverIcon from "./HoverIcon";
 import { useState } from "react";
 import BrandionaryMark from "./BrandionaryMark";
 import Menu from "./Menu";
@@ -105,6 +104,7 @@ const HeaderPage = () => {
               Brandionary
             </Link>
           </p>
+          {/* 
           <p className="flex flex-wrap items-center justify-end gap-1 text-[10px] uppercase tracking-[0.18em] md:text-[11px]">
             Shopify Developer at
             <Link
@@ -117,6 +117,7 @@ const HeaderPage = () => {
               Hover
             </Link>
           </p>
+          */}
         </div>
       </div>
 
