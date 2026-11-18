@@ -9,7 +9,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import HeroVideo from "./HeroVideo";
 import Menu from "./Menu";
 
-const filters = ["All", "Shopify", "App Canva", "SaaS"] as const;
+const filters = ["All", "Shopify", "SaaS", "Website", "App Canva"] as const;
 
 type Project = (typeof templates)[number];
 
@@ -83,7 +83,8 @@ const WorkCard = ({
         alt={project.name}
         width={1400}
         height={900}
-        className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="aspect-[16/10] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
       />
       <div className="mt-4 flex items-start justify-between gap-4 px-1 pb-1">
         <div className="flex flex-col gap-0.5">
@@ -140,8 +141,9 @@ const Work = () => {
     return {
       All: uniqueProjects.length,
       Shopify: uniqueProjects.filter((p) => p.category === "Shopify").length,
-      "App Canva": uniqueProjects.filter((p) => p.category === "App Canva").length,
       SaaS: uniqueProjects.filter((p) => p.category === "SaaS").length,
+      Website: uniqueProjects.filter((p) => p.category === "Website").length,
+      "App Canva": uniqueProjects.filter((p) => p.category === "App Canva").length,
     };
   }, [uniqueProjects]);
 
